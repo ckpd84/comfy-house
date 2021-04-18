@@ -1,12 +1,13 @@
-let fs = require("fs");
-let productosJSON = fs.readFileSync("products.json", { encoding: "utf-8" });
-let productos = JSON.parse(productosJSON);
-console.log(productos);
+const fs = require("fs");
+const productosJSON = fs.readFileSync("./data/products.json", {
+	encoding: "utf-8",
+});
+const productos = JSON.parse(productosJSON);
 
-let mainController = {
-  index: (req, res) => {
-    res.render("index", { productos: productos });
-  },
+const mainController = {
+	index: (req, res) => {
+		res.render("index", { productos });
+	},
 };
 
 module.exports = mainController;

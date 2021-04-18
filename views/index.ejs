@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <%- include('./partials/head') %>
-  </head>
-  <body>
-    <!-- navbar -->
-    <%- include('./partials/navbar') %>
-    <!-- end of navbar -->
+	<head>
+		<%- include('./partials/head') %>
+	</head>
 
-    <!-- hero -->
-    <%- include('./partials/hero') %>
-    <!-- end of hero -->
+	<body class="contenedor">
+		<!-- navbar -->
+		<%- include('./partials/navbar') %>
+		<!-- end of navbar -->
 
-    <!-- products -->
-    <%- include('./partials/products') %>
-    <!-- end of products -->
+		<!-- hero -->
+		<%- include('./partials/hero') %>
+		<!-- end of hero -->
 
-    <!-- cart -->
-    <%- include('./partials/cart') %>
-    <!-- end of cart -->
+		<!-- products -->
+		<%- include('./partials/products', {productos:productos}) %>
 
-    <!-- footer -->
-    <%- include('./partials/footer') %>
-    <!-- end of footer -->
+		<!-- end of products -->
 
-    <script src="/javascripts/scripts.js"></script>
-  </body>
+		<!-- cart -->
+		<%- include('./partials/cart') %>
+		<!-- end of cart -->
+
+		<!-- footer -->
+		<%- include('./partials/footer') %>
+		<!-- end of footer -->
+
+		<script src="/javascripts/scripts.js"></script>
+	</body>
 </html>
