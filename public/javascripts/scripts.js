@@ -1,5 +1,3 @@
-//variables
-
 // Mostrar Carrito
 const cartBtn = document.querySelector(".cart-btn");
 const closeCartBtn = document.querySelector(".close-cart");
@@ -7,16 +5,11 @@ const cartOverlay = document.querySelector(".cart-overlay");
 const cartDOM = document.querySelector(".cart");
 
 // Display del Carrito
-const cartContent = document.querySelector(".cart-content");
 //dentro de cart-content hay que listar todos los items elegidos
-
-// mostrar cantidad total de items agregados al carrito:
-const cartQuantity = document.querySelector(".cart-items");
-
+const cartContent = document.querySelector(".cart-content");
 const footer = document.querySelector(".cart-footer");
-
-const productsDOM = document.querySelector(".products-center");
 const contenedor = document.querySelector(".contenedor");
+const numberItems = document.querySelector(".cart-items");
 
 // templates
 const templateCart = document.getElementById("template-cart").content;
@@ -28,19 +21,17 @@ const fragment = document.createDocumentFragment();
 // cart
 let cart = {};
 
-//local storage
+cartBtn.addEventListener("click", () => {
+	cartDOM.classList.add("showCart");
+	cartOverlay.classList.add("transparentBcg");
+});
+
+closeCartBtn.addEventListener("click", () => {
+	cartDOM.classList.remove("showCart");
+	cartOverlay.classList.remove("transparentBcg");
+});
 
 document.addEventListener("DOMContentLoaded", () => {
-	cartBtn.onclick = () => {
-		cartDOM.classList.add("showCart");
-		cartOverlay.classList.add("transparentBcg");
-	};
-
-	closeCartBtn.onclick = () => {
-		cartDOM.classList.remove("showCart");
-		cartOverlay.classList.remove("transparentBcg");
-	};
-
 	cartContent.addEventListener("click", (e) => {
 		btnAccion(e);
 	});
@@ -70,6 +61,7 @@ const setCart = (objeto) => {
 		image: objeto.querySelector("img").src,
 		cantidad: 1,
 	};
+
 	if (cart.hasOwnProperty(cartProduct.id)) {
 		cartProduct.cantidad = cart[cartProduct.id].cantidad + 1;
 	}
@@ -82,13 +74,16 @@ const listadoCart = () => {
 	Object.values(cart).forEach((item) => {
 		templateCart.querySelector("img").src = item.image;
 		templateCart.querySelector("h4").textContent = item.title;
-		templateCart.querySelector("h5").textContent = item.price * item.cantidad;
+		templateCart.querySelector("h5").textContent =
+			"$ " + item.price * item.cantidad;
 		templateCart.querySelector(".suma").dataset.id = item.id;
 		templateCart.querySelector(".item-amount").textContent = item.cantidad;
 		templateCart.querySelector(".resta").dataset.id = item.id;
+
 		const clone = templateCart.cloneNode(true);
 		fragment.appendChild(clone);
 	});
+
 	cartContent.appendChild(fragment);
 
 	mostarTotales();
@@ -108,6 +103,12 @@ const mostarTotales = () => {
 		0
 	);
 
+	const cantidadTotal = Object.values(cart).reduce(
+		(acc, { cantidad }) => acc + cantidad,
+		0
+	);
+
+	numberItems.textContent = cantidadTotal;
 	templateFooter.querySelector(".cart-total").textContent = sumaTotal;
 	const clone = templateFooter.cloneNode(true);
 	fragment.appendChild(clone);
