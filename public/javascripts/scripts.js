@@ -21,11 +21,12 @@ const fragment = document.createDocumentFragment();
 // cart
 let cart = {};
 
+//mostrar carrito
 cartBtn.addEventListener("click", () => {
 	cartDOM.classList.add("showCart");
 	cartOverlay.classList.add("transparentBcg");
 });
-
+//cerrar carrito
 closeCartBtn.addEventListener("click", () => {
 	cartDOM.classList.remove("showCart");
 	cartOverlay.classList.remove("transparentBcg");
@@ -53,6 +54,7 @@ const addToCart = (e) => {
 	e.stopPropagation();
 };
 
+//Armado del carrito
 const setCart = (objeto) => {
 	const cartProduct = {
 		id: objeto.querySelector(".bag-btn").dataset.id,
@@ -69,6 +71,7 @@ const setCart = (objeto) => {
 	listadoCart();
 };
 
+//Pinto carrito en pantalla
 const listadoCart = () => {
 	cartContent.innerHTML = "";
 	Object.values(cart).forEach((item) => {
@@ -91,24 +94,21 @@ const listadoCart = () => {
 	localStorage.setItem("cart", JSON.stringify(cart));
 };
 
+// Pinto los totales
 const mostarTotales = () => {
 	footer.innerHTML = "";
+
+	//si el carrito está vacío
 	if (Object.keys(cart).length === 0) {
 		footer.innerHTML = `<p>Your cart it's empty.</p>`;
 		return;
 	}
 
+	//suma total
 	const sumaTotal = Object.values(cart).reduce(
 		(acc, { cantidad, price }) => acc + cantidad * price,
 		0
 	);
-
-	const cantidadTotal = Object.values(cart).reduce(
-		(acc, { cantidad }) => acc + cantidad,
-		0
-	);
-
-	numberItems.textContent = cantidadTotal;
 	templateFooter.querySelector(".cart-total").textContent = sumaTotal;
 	const clone = templateFooter.cloneNode(true);
 	fragment.appendChild(clone);
@@ -120,8 +120,16 @@ const mostarTotales = () => {
 		cart = {};
 		listadoCart();
 	});
+
+	//cantidad total
+	const cantidadTotal = Object.values(cart).reduce(
+		(acc, { cantidad }) => acc + cantidad,
+		0
+	);
+	numberItems.textContent = cantidadTotal;
 };
 
+// acciones de agregar y restar cantidades
 const btnAccion = (e) => {
 	if (e.target.classList.contains("suma")) {
 		const producto = cart[e.target.dataset.id];
